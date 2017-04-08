@@ -18,6 +18,17 @@ const buildApp = function (connections) {
     // parse application/json
     app.use(bodyParser.json());
 
+    app.use(function () {
+        return function allowCrossDomain(req, res, next) {
+            res.header('Access-Control-Allow-Origin', '*');
+            if (req.method === 'OPTIONS') {
+                res.status(200).send();
+            } else {
+                next();
+            }
+        };
+    }());
+
     routes(app);
 
     app.set('ready', true);
