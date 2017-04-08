@@ -77,8 +77,28 @@ module.exports = function (app) {
             });
 
             res.status(200).send(`Found ${count} records, updated ${updated}`);
-        });      
+        });
     });
+    /*
+     def split_loc(loc):
+        try:
+            loc_array = str(loc).split(' ')
+            loc1 = ' '.join([loc_array[0], loc_array[2]])
+        except IndexError:
+            loc1 = None
+            return loc1
+     */
+
+    function processLocation(location) {
+        let locationArray = [];
+        let outputFormat = 'N/A';
+        if (_.isString(location)) {
+            locationArray = location.split(' ');
+            outputFormat = `${locationArray[0]} ${locationArray[2]}`;
+        }
+        return outputFormat;
+    }
+
 
     app.get('/connect', function (req, res) {
         console.log('Sending sample api request to google geocoding api');
