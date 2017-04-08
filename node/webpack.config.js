@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: [
+        'react-hot-loader/patch',
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server',
         './client/src/index.js'
@@ -11,8 +12,8 @@ module.exports = {
 
     output: {
         filename: '[name].[hash].js',
-        path: resolve(__dirname, './client/dist'),
-        publicPath: './client/public'
+        path: resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
 
     context: resolve(__dirname),
@@ -21,22 +22,21 @@ module.exports = {
 
     devServer: {
         hot: true,
-        contentBase: resolve(__dirname, './client/dist'),
-        publicPath: './client/public',
+        contentBase: resolve(__dirname, 'dist'),
+        publicPath: '/',
         historyApiFallback: true
     },
 
     module: {
         rules: [
             {
-                test: /\.js$/,
-                use: {
-                    loader: 'babel-loader'
-                },
+                test: /\.(js|jsx)$/,
+                loaders: 'babel-loader',
+                include: [/client/],
                 exclude: [/node_modules/, /server/]
             },
             {
-                test: /\.(scss)$/,
+                test: /\.(scss|css)$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
@@ -50,7 +50,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new HtmlWebpackPlugin({
-            template: './client/public/index.html'
+            template: './client/src/index.html'
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
