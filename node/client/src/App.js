@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Dashboard, Header, Sidebar } from 'react-adminlte-dash';
- 
-
 
 class App extends Component {
   navItems() {
