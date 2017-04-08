@@ -1,7 +1,12 @@
-// const agent = require('superagent');
+const agent = require('superagent');
+const moment = require('moment');
+const _ = require('lodash');
+const util = require('util');
 
 module.exports = function (app) {
     const connections = app.get('connections');
+    const cache = app.get('cache');
+    const config = app.get('config');
     const db = connections.sqlite;
 
     // eslint-disable-next-line
@@ -12,7 +17,7 @@ module.exports = function (app) {
     app.get('/convert/address/latlong', function (req, res) {
         console.log('GET convert address to latlong endpoint called');
         const dbname = req.query.dbname;
-        
+
         if (!dbname) {
             console.log('Must include dbname in query!');
             return res.status(400).send('Must include dbname in query');
@@ -64,14 +69,14 @@ module.exports = function (app) {
                             db.run(`UPDATE ${dbname} SET lng=${response.lng} WHERE address="${row.address}"`);
                             // res.status(200).send(response);
                         })
-                        .catch(error => console.log(`ERROR OCCURRED AT API.JS: ${error}`));  
+                        .catch(error => console.log(`ERROR OCCURRED AT API.JS: ${error}`));
                 } else {
                     console.log('Skipping address, already has lat and lng');
                     console.log(row.address);
                 }
             });
 
-            res.status(200).send(`Found ${count} records, updated ${updated}`); 
+            res.status(200).send(`Found ${count} records, updated ${updated}`);
         });      
     });
 
@@ -79,6 +84,73 @@ module.exports = function (app) {
         console.log('Sending sample api request to google geocoding api');
         geoLib.convertAddressToLatLong('2700 CENTENNIAL BLVD, Eugene OR')
             .then(response => res.status(200).send(response))
-            .catch(err => res.status(500).send(err)); 
+            .catch(err => res.status(500).send(err));
+    });
+
+    /**
+     * Be careful hitting this endpoint because we only have 60 api calls a day and it uses 5 each time
+     */
+    app.get('/weather', function (req, res) {
+        const cityId = config.weather.cityId;
+        const weatherApiKey = config.weather.key;
+        const currentEndpoint = config.weather.endpoints.current;
+
+        let weatherData = [];
+
+        const getHistoricalWeatherData = function () {
+            const currentMoment = moment();
+            const queryPromises = [];
+
+            for (let i = 0; i < config.weather.defaultHistoricalYears; i++) {
+                currentMoment.subtract(1, 'year').startOf('day');
+                const start = currentMoment.unix();
+                currentMoment.endOf('day');
+                const end = currentMoment.unix();
+
+                const queryPromise = Promise((resolve, reject) => {
+                    agent
+                        .get(currentEndpoint)
+                        .query(`id=${cityId}&start=${start}&end=${end}&APPID=${weatherApiKey}`)
+                        .end(function (err, response) {
+                            if (err) {
+                                reject(err);
+                            }
+
+                            resolve(response.body);
+                        });
+                });
+
+                queryPromise.push(queryPromise);
+            }
+
+            return Promise.all(queryPromises);
+        };
+
+        getHistoricalWeatherData()
+            .then(function (results) {
+                weatherData = [].concat(results);
+
+                return new Promise((resolve, reject) => {
+                    agent
+                        .get(currentEndpoint)
+                        .query(`id=${cityId}&APPID=${weatherApiKey}`)
+                        .end(function (err, response) {
+                            if (err) {
+                                reject(err);
+                            }
+
+                            resolve(response.body);
+                        });
+                });
+            })
+            .then(function (results) {
+                weatherData = weatherData.concat([results]);
+                res.status(200).send(weatherData);
+            })
+            .catch(function (err) {
+                console.log(err);
+                res.status(500).send(err);
+            });
+
     });
 };
