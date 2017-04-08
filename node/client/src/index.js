@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css';
+import './css/index.css';
+import './css/leaflet.css';
 import Routes from './Routes';
 
 ReactDOM.render((Routes),
