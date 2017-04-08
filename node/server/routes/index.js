@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const fs = require('fs');
 
+// TODO get rid of this stuff
 const getRoutes = function (path) {
     const routes = [];
     const traverseFileSystem = function (currentPath) {
