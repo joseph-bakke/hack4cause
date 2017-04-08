@@ -11,6 +11,7 @@ export default React.createClass({
     getInitialState() {
         return {
             data: {},
+            selected: {},
             errors: []
         }
     },
@@ -29,16 +30,19 @@ export default React.createClass({
     parseData(returnedData) {
         const dataSets = Object.keys(_.first(returnedData)).filter(key => !_.includes(ignoreFields, key));
         const organizedData = {};
+        const selectedData = {};
 
         dataSets.forEach((dataSet) => {
             organizedData[dataSet] = {};
+            selectedData[dataSet] = false;
             returnedData.forEach((yearlyData) => {
                 organizedData[dataSet][yearlyData.year] = yearlyData[dataSet];
             });
         });
 
         this.setState({
-            data: organizedData
+            data: organizedData,
+            selected: selectedData
         });
     },
 
@@ -55,10 +59,10 @@ export default React.createClass({
             <Grid fluid>
                 <Row>
                     <Col xs={9} md={9}>
-                        <IncomeChange></IncomeChange>
+                        <IncomeChange data={this.state.data} selected={this.state.selected} />
                     </Col>
                 </Row>
             </Grid>
-        )
+        );
     }
 });

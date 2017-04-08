@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import {Line} from 'react-chartjs';
+import { Line } from 'react-chartjs';
 
 export default React.createClass({
     render(){
-    var chartData = {
+        const chartData = {
             labels: [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015],
             datasets: [
                 {
@@ -56,12 +56,13 @@ export default React.createClass({
                     spanGaps: false
                 }
             ]
-        };        var chartOptions = {
+        };
+        const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
             tooltipTemplate: "<%= value + '% change' %>",
         };
-        return(
+        return (
             <div className="card">
                 <div className="container">
                     <h3>Income Change</h3>
