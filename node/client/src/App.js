@@ -18,14 +18,13 @@ class App extends Component {
     );
   }
   render() {
-    console.log('this.props.children', this.props.children);
     return (
         <Dashboard
         navbarChildren={this.navItems()}
         sidebarChildren={this.sidebarItems()}
         logoLg={<span><b>Eugene</b>Dashboard</span>}
         logoSm={<span><b>E</b>UG</span>}
-        theme="skin-blue">
+        theme="skin-green">
           {this.props.children}
       </Dashboard>
     );
