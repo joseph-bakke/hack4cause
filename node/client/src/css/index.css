@@ -24,6 +24,21 @@ body {
     padding: 2px 16px;
 }
 
+.map {
+    position: relative;
+    width: 1675px;
+    height: 800px;
+}
+
+.leaflet-container {
+    width: 1675px;
+    height: 800px;
+}
+
+h1, h2, p {
+    text-align: center;
+}
+
 footer{
   position: fixed;
     bottom: 0px;
