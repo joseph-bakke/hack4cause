@@ -10,6 +10,7 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     background-color:#FFF;
+    padding-bottom: 10px;
 
 }
 
@@ -20,8 +21,8 @@ body {
 
 /* Add some padding inside the card container */
 .container {
-    margin:20px 10px;
-    padding: 2px 16px;
+    margin:20px 15px 0px 10px;
+    padding: 10px 16px 8px 0px;
 }
 
 footer{
