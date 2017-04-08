@@ -8,6 +8,7 @@ const app = express();
 
 const buildApp = function (connections) {
     app.set('connections', connections);
+    app.set('config', config);
 
     // parse application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: false }));
