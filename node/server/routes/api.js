@@ -9,10 +9,16 @@ module.exports = function (app) {
 
     // const config = app.get('config');
 
-    app.get('/convert/add/latlong', function (req, res) {
-        console.log('GET test endpoint called');
-        const dbname = 'employmentBP';
+    app.get('/convert/address/latlong', function (req, res) {
+        console.log('GET convert address to latlong endpoint called');
+        const dbname = req.query.dbname;
+        
+        if (!dbname) {
+            console.log('Must include dbname in query!');
+            return res.status(400).send('Must include dbname in query');
+        }
 
+        console.log(`Querying dbname ${dbname}`);
         // if lat long values don't exist create them
         db.all(`SELECT lat from ${dbname} LIMIT 1`, function (err, response) {
             if (err) {
@@ -48,9 +54,9 @@ module.exports = function (app) {
                 console.log(`Converting address: ${row.address}`);
 
                 if (row.lat == null || row.lng == null) {
-                    updated++;
                     geoLib.convertAddressToLatLong(`${row.address}, Eugene OR`)
                         .then(response => {
+                            updated++;
                             console.log('Udpating db with values');
                             console.log(`UPDATE ${dbname} SET lat=${response.lat} WHERE address="${row.address}"`);
                             console.log(`UPDATE ${dbname} SET lng=${response.lng} WHERE address="${row.address}"`);
@@ -58,10 +64,10 @@ module.exports = function (app) {
                             db.run(`UPDATE ${dbname} SET lng=${response.lng} WHERE address="${row.address}"`);
                             // res.status(200).send(response);
                         })
-                        .catch(error => res.status(500).send(error));  
+                        .catch(error => console.log(`ERROR OCCURRED AT API.JS: ${error}`));  
                 } else {
                     console.log('Skipping address, already has lat and lng');
-                    console.log(row);
+                    console.log(row.address);
                 }
             });
 
