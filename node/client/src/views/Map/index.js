@@ -6,7 +6,7 @@ const stamenTonerAttr = '&copy; <a href="http://www.openstreetmap.org/copyright"
 const mapCenter = [44.05207, -123.086];
 const zoomLevel = 12;
 
-class MapDisplay extends Component {
+const MapPage = React.createClass({
     render() {
         return (
             <div className="map" id="map">
@@ -20,8 +20,9 @@ class MapDisplay extends Component {
                     />
                 </Map>
             </div>
+
         );
     }
-}
+});
 
-export default MapDisplay
+export default MapPage;
