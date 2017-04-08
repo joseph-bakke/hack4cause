@@ -7,3 +7,8 @@ app.listen(3000, function () {
     app.set('ready', true);
     app.emit('app:ready');
 });
+
+
+app.get('/', function (req, res, next) {
+    res.status(200).send('Ayy lmao');
+});
