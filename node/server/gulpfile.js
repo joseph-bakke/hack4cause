@@ -4,7 +4,7 @@ const exit = require('gulp-exit');
 
 gulp.task('default', function () {
     nodemon({
-        script: './server/app.js',
+        script: './app.js',
         ext: 'html js',
         ignore: ['node_modules/**', 'test/**', 'client/**']
     })
