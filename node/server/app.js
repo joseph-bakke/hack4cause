@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const NodeCache = require('node-cache');
 
-const config = require('../config');
+const config = require('./config');
 const routes = require('./routes');
 
 const app = express();

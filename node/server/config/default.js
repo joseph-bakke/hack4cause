@@ -1,7 +1,7 @@
 const keys = require('./keys.json');
 const path = require('path');
 
-const projectDir = path.resolve(__dirname, '../');
+const projectDir = path.resolve(__dirname, '../../');
 
 module.exports = {
     google: {
@@ -12,7 +12,7 @@ module.exports = {
     },
     web: {
         api: {
-            port: 3000
+            port: 3001
         }
     },
     cache: {
