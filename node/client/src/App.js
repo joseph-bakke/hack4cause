@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router';
 import { Dashboard, Header, Sidebar } from 'react-adminlte-dash';
+import MapDisplay from './views/Map';
 
 class App extends Component {
   navItems() {
@@ -29,6 +30,7 @@ class App extends Component {
       </Dashboard>
     );
   }
+
 }
 
 export default App

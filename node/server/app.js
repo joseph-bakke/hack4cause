@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const NodeCache = require('node-cache');
 
 const config = require('../config');
 const routes = require('./routes');
@@ -8,6 +9,7 @@ const app = express();
 
 const buildApp = function (connections) {
     app.set('connections', connections);
+    app.set('cache', new NodeCache({ stdTTL: config.cache.defaultTtl }));
     app.set('config', config);
 
     // parse application/x-www-form-urlencoded

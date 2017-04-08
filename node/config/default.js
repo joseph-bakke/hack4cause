@@ -14,5 +14,8 @@ module.exports = {
         api: {
             port: 3000
         }
+    },
+    cache: {
+        defaultTtl: 1440
     }
 };
