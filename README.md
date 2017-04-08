@@ -15,3 +15,6 @@ Open a separate terminal instance
 ```
 gulp
 ```
+
+Client server is running at: localhost:3000/
+API server is running at localhost:3001/
