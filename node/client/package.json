@@ -7,9 +7,11 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "chart.js": "^1.1.1",
     "leaflet": "^1.0.3",
     "react": "^15.5.3",
     "react-adminlte-dash": "^0.4.0",
+    "react-chartjs": "^0.8.0",
     "react-dom": "^15.5.3",
     "react-flexbox-grid": "^1.0.2",
     "react-leaflet": "^1.1.5",
@@ -19,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "(cd node_modules/react-flexbox-grid && npm install && npm run build)"
   }
 }

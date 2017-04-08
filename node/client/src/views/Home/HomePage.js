@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import IncomeChange from './Components/IncomeChange'
 
 const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
 const ignoreFields = ['index', 'rentMed', 'year'];
@@ -53,13 +54,8 @@ export default React.createClass({
         return (
             <Grid fluid>
                 <Row>
-                    <Col xs={6} md={3}>
-                        <div className="card">
-                            <div className="container">
-                                <h4><b>Card</b></h4>
-                                <p>Details</p>
-                            </div>
-                        </div>
+                    <Col xs={9} md={9}>
+                        <IncomeChange></IncomeChange>
                     </Col>
                 </Row>
             </Grid>
