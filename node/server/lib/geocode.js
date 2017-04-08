@@ -1,5 +1,6 @@
 const agent = require('superagent');
 const Promise = require('bluebird');
+const _ = require('lodash');
 
 module.exports = function (app) {
     const config = app.get('config');
@@ -16,10 +17,12 @@ module.exports = function (app) {
                     console.log('An error occurred:');
                     console.log(err);
                     deferred.reject(err);
+                } else {
+                    const latlong = (!_.isEmpty(response.body.results)) ? response.body.results[0].geometry.location : null;
+                    console.log('latlong:');
+                    console.log(latlong);
+                    deferred.resolve(latlong);
                 }
-
-                console.log(response.body.results[0].geometry.location);
-                deferred.resolve(response.body.results[0].geometry.location);
             });
         return deferred.promise;
     }
