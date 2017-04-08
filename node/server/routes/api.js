@@ -86,4 +86,44 @@ module.exports = function (app) {
             .then(response => res.status(200).send(response))
             .catch(err => res.status(500).send(err));
     });
+
+    app.get('/parking', function (req, res) {
+        const dbname = 'parkingCit2007';
+
+        db.all(`SELECT * FROM ${dbname}`, function (err, record) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+
+            console.log(record);
+            res.status(200).send(record);
+        });
+    });
+
+    app.get('/eugeneData', function (req, res) {
+        const eugeneTable = 'eugeneOverview';
+
+        db.all(`SELECT * FROM ${eugeneTable}`, function (err, records) {
+            if (err) {
+                return res.status(500).send(err);
+            }
+
+            res.status(200).send(records);
+        });
+    });
+
+    app.get('/building', function (req, res) {
+        const commercialPermitTable = 'employmentBP';
+        const housingBuildingPermitTable = 'housingBP';
+
+        db.all(`SELECT * FROM ${commercialPermitTable} LEFT JOIN ${housingBuildingPermitTable}`, function (err, record) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            console.log(err);
+            console.log(record);
+            res.status(200).send()
+        });
+    });
 };
