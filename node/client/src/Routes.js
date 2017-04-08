@@ -4,6 +4,9 @@ import App from './App';
 import {HomePage} from './views/Home';
 import {AboutPage} from './views/About';
 
+console.log(Router);
+console.log(browserHistory);
+
 const Routes = (
       <Router history={browserHistory}>
         <Route path='/' component={App} >
