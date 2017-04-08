@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Dashboard, Header, Sidebar } from 'react-adminlte-dash';
+ 
+
 
 class App extends Component {
-    render() {
-        return (
-            <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h2>Welcome to React</h2>
-                </div>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.js</code> and save to reload.
-                </p>
-            </div>
-        );
-    }
+  navItems() {
+    return (
+      <Header.Item href="/some/link" key="1" />
+    );
+  }
+  sidebarItems(){
+    return(
+      <Sidebar.Menu header="NAVIGATION" key="1">
+        <Sidebar.Menu.Item title="Home" href="/" />
+      </Sidebar.Menu>
+    );
+  }
+  render() {
+    return (
+        <Dashboard
+        navbarChildren={this.navItems()}
+        sidebarChildren={this.sidebarItems()}
+        sidebarMini={true}
+        logoLg={<span><b>Eugene</b>Dashboard</span>}
+        logoSm={<span><b>E</b>UG</span>}
+        theme="skin-blue">
+      </Dashboard>
+    );
+  }
 }
 
 export default App;
