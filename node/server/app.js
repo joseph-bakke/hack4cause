@@ -30,7 +30,7 @@ const buildApp = function (connections) {
     });
 
     app.on('app:ready', function () {
-        console.log('Application has successfully started and is ready to start receiving requests', 'Server');
+        console.log(`Application has successfully started and is ready to start receiving requests at port ${config.web.api.port}`, 'Server');
     });
 };
 
