@@ -12,6 +12,7 @@ export default React.createClass({
     getInitialState() {
         return {
             data: {},
+            selected: {},
             errors: []
         }
     },
@@ -30,16 +31,19 @@ export default React.createClass({
     parseData(returnedData) {
         const dataSets = Object.keys(_.first(returnedData)).filter(key => !_.includes(ignoreFields, key));
         const organizedData = {};
+        const selectedData = {};
 
         dataSets.forEach((dataSet) => {
             organizedData[dataSet] = {};
+            selectedData[dataSet] = true;
             returnedData.forEach((yearlyData) => {
                 organizedData[dataSet][yearlyData.year] = yearlyData[dataSet];
             });
         });
 
         this.setState({
-            data: organizedData
+            data: organizedData,
+            selected: selectedData
         });
     },
 
@@ -63,6 +67,6 @@ export default React.createClass({
                     </Col>
                 </Row>
             </Grid>
-        )
+        );
     }
 });
