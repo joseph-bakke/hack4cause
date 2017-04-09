@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import Layout from '../Shared/Layout';
-import IncomeChange from './IncomeChange'
+import Graph from '../Shared/Graph';
 import ButtonSelectorMenu from '../Shared/ButtonSelectorMenu';
 
 const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
@@ -23,7 +23,6 @@ export default React.createClass({
     getInitialState() {
         return {
             data: {},
-            selected: {},
             selectedKeys: ['housingMed', 'zhvi'],
             errors: []
         }
@@ -97,7 +96,7 @@ export default React.createClass({
         );
         const graphJsx = (
             <div>
-                {_.isEmpty(this.state.data) === false && <IncomeChange datasets={this.state.data} selected={this.state.selectedKeys}/>}
+                {_.isEmpty(this.state.data) === false && <Graph title={"Income Change"} datasets={this.state.data} selected={this.state.selectedKeys}/>}
             </div>
         );
 

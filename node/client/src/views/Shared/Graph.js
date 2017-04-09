@@ -64,11 +64,12 @@ function scale(orig, matchTo) {
 
 export default React.createClass({
     propTypes: {
+        title: PropTypes.string.isRequired,
         datasets: PropTypes.object.isRequired,
         selected: PropTypes.array.isRequired
     },
     render(){
-        const {datasets, selected} = this.props;
+        const {title, datasets, selected} = this.props;
         // const dataset = {
         //     eugene: {
         //         label: "Eugene",
@@ -102,7 +103,6 @@ export default React.createClass({
                     return dataTemplate(datasets[key].label, datasets[key].data);
                 })
         };
-        console.log(chartData);
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
@@ -111,7 +111,7 @@ export default React.createClass({
         return (
             <div className="card">
                 <div className="container">
-                    <h3>Income Change</h3>
+                    <h3>{title}</h3>
                     <Line data={chartData} options={chartOptions} width="100%" height="100%"/>
                 </div>
             </div>
