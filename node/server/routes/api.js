@@ -216,6 +216,17 @@ module.exports = function (app) {
         });
     });
 
+    app.get('/housing', function (req, res) {
+        const categoryTable = 'HOUSING';
+
+        db.all(`${queries[categoryTable]}`, function (err, records) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            res.status(200).send(records);
+        });
+    });
+
     app.get('/income', function (req, res) {
         const categoryTable = 'INCOME';
 
