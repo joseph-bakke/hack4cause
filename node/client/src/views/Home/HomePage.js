@@ -57,8 +57,12 @@ export default React.createClass({
         });
     },
 
-    onSelectorClick() {
-
+    onSelectorClick(key) {
+        if (this.state.selected.hasOwnProperty(key)) {
+            const selected = Object.assign({}, this.state.selected);
+            selected[key] = !selected[key];
+            this.setState({selected});
+        }
     },
 
     renderSelectors() {
@@ -66,11 +70,8 @@ export default React.createClass({
         const selectorRows = [];
         let cols = [];
 
-        console.log(dataSets);
+        // Nothing to see here, just a bunch of trash
         dataSets.forEach((set, index) => {
-            console.log(set, index);
-            console.log(labelMappings);
-            
             const text = labelMappings[set];
             const isSelected = this.state.selected[set];
             cols.push(
@@ -84,7 +85,7 @@ export default React.createClass({
                 </Col>
             );
 
-            if (index % 4 === 1) {
+            if (index % 4 === 3 || index === dataSets.length - 1) {
                 selectorRows.push(
                     <Row>
                         {[].concat(cols)}
@@ -94,7 +95,6 @@ export default React.createClass({
             }
         });
 
-        console.log(selectorRows);
         return selectorRows;
     },
 
@@ -112,11 +112,6 @@ export default React.createClass({
                 <Row>
                     <Col xs={9} md={9}>
                         <IncomeChange data={this.state.data} selected={this.state.selected} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={3} md={3}>
-                        <Selector />
                     </Col>
                 </Row>
                 {this.renderSelectors()}
