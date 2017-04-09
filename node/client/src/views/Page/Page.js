@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import IncomeChange from './Components/IncomeChange'
-import Selector from './Components/Selector';
+import ButtonSelectorMenu from '../Shared/ButtonSelectorMenu';
 
 const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
 const ignoreFields = ['index', 'rentMed', 'year'];
@@ -66,36 +66,22 @@ export default React.createClass({
     },
 
     renderSelectors() {
-        const dataSets = Object.keys(this.state.selected);
+        const dataSets = Object.keys(labelMappings);
         const selectorRows = [];
         let cols = [];
 
-        // Nothing to see here, just a bunch of trash
+        const buttonConfig = {};
+
         dataSets.forEach((set, index) => {
             const text = labelMappings[set];
-            const isSelected = this.state.selected[set];
-            cols.push(
-                <Col xs={3} md={3}>
-                    <Selector
-                        selectorText={text}
-                        selectorField={set}
-                        isSelected={isSelected}
-                        onSelectorClicked={this.onSelectorClick}
-                    />
-                </Col>
-            );
-
-            if (index % 4 === 3 || index === dataSets.length - 1) {
-                selectorRows.push(
-                    <Row>
-                        {[].concat(cols)}
-                    </Row>
-                );
-                cols = [];
-            }
+            buttonConfig[set] = {
+                label: <span>{text}</span>
+            };
         });
 
-        return selectorRows;
+        return (
+            <ButtonSelectorMenu buttonConfig={buttonConfig} onSelectCallback={function (selected) {console.log(selected)}} />
+        );
     },
 
     render() {
