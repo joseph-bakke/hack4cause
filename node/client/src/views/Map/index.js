@@ -1,9 +1,10 @@
 import React, { PropTypes }  from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import { Map, TileLayer } from 'react-leaflet';
-import CircleLayer from './components/circleLayer';
+import { Map, TileLayer, Circle } from 'react-leaflet';
 
+const circleOpacity = 0.1;
+const circleRadius = 500;
 const eugeneBPData = 'http://localhost:3001/development/residential';
 
 const stamenTonerTiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -12,7 +13,7 @@ const mapCenter = [44.05207, -123.0009]; // Eugene
 
 const MapComponent = React.createClass({
     propTypes: {
-        additionalLayers: PropTypes.array
+        circleData: PropTypes.array
     },
     getInitialState() {
         return {
@@ -21,15 +22,47 @@ const MapComponent = React.createClass({
             errors: []
         }
     },
+
+    componentDidMount() {
+        this.parseData();
+    },
+
     handleZoom(arg) {
         let zoomBy = (arg.target._zoom*25);
         this.setState({ zoomBy });
     },
 
-    renderExtraLayers() {
-        console.log(this.props.additionalLayers);
-        return this.props.additionalLayers.map(layer => layer);
+    parseData() {
+        let circles = [];
+        _.forEach(this.props.circleData, function (obj) {
+            if (!(obj.lat === null || obj.lng === null)) {
+                circles.push([parseFloat(obj.lat), parseFloat(obj.lng)]);
+            }
+        });
+
+        this.setState({
+            circles: circles
+        });
     },
+
+    createCircles() {
+        let comp = [];
+        _.forEach(this.props.circleData, (loc, index) => {
+            console.log(loc);
+            comp = comp.concat(
+                <Circle
+                    key={index}
+                    center={loc}
+                    radius={circleRadius - this.state.zoomBy}
+                    fillOpacity={circleOpacity}
+                    stroke={false}
+                />
+            );
+        });
+        console.log(comp);
+        return comp;
+    },
+
 
     render() {
         if (!_.isEmpty(this.state.errors)) {
@@ -38,7 +71,6 @@ const MapComponent = React.createClass({
                     {this.state.errors}
                 </div>
             );
-
         }
 
         let zoomLevel = this.state.zoomLevel;
@@ -53,7 +85,7 @@ const MapComponent = React.createClass({
                         url={stamenTonerTiles}
                         attribute={stamenTonerAttr}
                     />
-                    {this.renderExtraLayers()}
+                    {this.createCircles()}
                 </Map>
             </div>
 
@@ -64,7 +96,8 @@ const MapComponent = React.createClass({
 const MapPage = React.createClass({
     getInitialState() {
         return {
-            circles: []
+            circles: [],
+            errors: []
         };
     },
     componentWillMount() {
@@ -75,16 +108,16 @@ const MapPage = React.createClass({
                 });
             })
             .catch((err) => {
+                console.log(err);
                 const errors = this.state.errors.concat([err]);
                 this.setState({errors});
             });
 
     },
     render() {
-        const circleLayer = <CircleLayer dataSet={this.state.circles} />;
         return (
             <div>
-                <MapComponent additionalLayers={[circleLayer]} />
+                <MapComponent circleData={this.state.circles} />
             </div>
         );
     }

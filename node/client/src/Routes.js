@@ -15,7 +15,7 @@ const Routes = (
             <Route path='/about' component={AboutPage} />
             <Route path='/category/:categoryid' component={Page}/>
             <Route path='/page' component={Page} />
-            <Route path='/map' component={MapPage} />
+            <Route path='/parking' component={MapPage} />
             <Route path='/weather' component={WeatherPage} />
         </Route>
       </Router>

@@ -97,7 +97,7 @@ export default React.createClass({
         );
 
         return (
-                <Layout title={"Employment"}
+                <Layout title={"Income"}
                         visualization={graphJsx}
                         description={descriptionJsx}>
                     {this.renderSelectors()}
