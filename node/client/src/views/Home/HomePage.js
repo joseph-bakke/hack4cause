@@ -1,36 +1,52 @@
 import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
+import path from 'path';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import IncomeChange from './Components/IncomeChange'
-import Selector from './Components/Selector';
+import CategoryIcon from './Components/CategoryIcon';
 
-const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
-const ignoreFields = ['index', 'rentMed', 'year'];
+import Income from '../../images/profit.png';
+import Tie from '../../images/tie.png';
+import Tool from '../../images/tool.png';
+import Transport from '../../images/transport.png';
+import Home from '../../images/home.png';
+import Cloud from '../../images/cloud.png';
 
-const labelMappings = {
-    unemployment: 'Regional Unemployment',
-    totalWages: 'Total Wages',
-    avgWage: 'Average Wage',
-    natHHMedIncome: 'National Average Wage',
-    housingMed: 'Median Housing Price',
-    zhvi: 'Zillow Median Housing Price',
-    natUnemployment: 'National Unemployment'
+const iconImageMapping = {
+    'income': Income,
+    'employment': Tie,
+    'development': Tool,
+    'parking': Transport,
+    'housing': Home,
+    'weather': Cloud
 };
+
+const categoriesEndpoint = 'http://localhost:3001/categories';
 
 export default React.createClass({
     getInitialState() {
         return {
-            data: {},
-            selected: {},
+            categories: [],
             errors: []
         }
     },
 
     componentWillMount() {
-        axios.get(eugeneOverviewEndpoint)
+        axios.get(categoriesEndpoint)
             .then((res) => {
-                this.parseData(res.data);
+                // this.setState({
+                //     categories: res.data
+                // });
+
+                this.setState({
+                    categories: [
+                        {
+                            type: 'graph',
+                            icon: 'income',
+                            name: 'Income'
+                        }
+                    ]
+                })
             })
             .catch((err) => {
                 const errors = this.state.errors.concat([err]);
@@ -38,86 +54,42 @@ export default React.createClass({
             });
     },
 
-    parseData(returnedData) {
-        const dataSets = Object.keys(_.first(returnedData)).filter(key => !_.includes(ignoreFields, key));
-        const organizedData = {};
-        const selectedData = {};
-
-        dataSets.forEach((dataSet) => {
-            organizedData[dataSet] = {};
-            selectedData[dataSet] = false;
-            returnedData.forEach((yearlyData) => {
-                organizedData[dataSet][yearlyData.year] = yearlyData[dataSet];
-            });
-        });
-
-        this.setState({
-            data: organizedData,
-            selected: selectedData
-        });
-    },
-
-    onSelectorClick(key) {
-        if (this.state.selected.hasOwnProperty(key)) {
-            const selected = Object.assign({}, this.state.selected);
-            selected[key] = !selected[key];
-            this.setState({selected});
-        }
-    },
-
-    renderSelectors() {
-        const dataSets = Object.keys(this.state.selected);
-        const selectorRows = [];
+    renderIcons() {
+        const rows = [];
         let cols = [];
 
-        // Nothing to see here, just a bunch of trash
-        dataSets.forEach((set, index) => {
-            const text = labelMappings[set];
-            const isSelected = this.state.selected[set];
-            cols.push(
-                <Col xs={3} md={3}>
-                    <Selector
-                        selectorText={text}
-                        selectorField={set}
-                        isSelected={isSelected}
-                        onSelectorClicked={this.onSelectorClick}
-                    />
-                </Col>
-            );
+        console.log(this.state.categories);
 
-            if (index % 4 === 3 || index === dataSets.length - 1) {
-                selectorRows.push(
-                    <Row>
+        _.forEach(this.state.categories, (category, index) => {
+            const icon = iconImageMapping[category.icon];
+            const name = category.name;
+
+            cols.push(<Col md={2} xs={2}><CategoryIcon icon={icon} name={name} /></Col>);
+
+            if (index % 3 === 2 || index === this.state.categories.length - 1) {
+                rows.push(
+                    <Row around="md">
                         {[].concat(cols)}
                     </Row>
                 );
-                cols = [];
             }
         });
 
-        return selectorRows;
+        console.log(rows);
+
+        return rows;
     },
 
     render() {
-        if (!_.isEmpty(this.state.errors)) {
-            return (
-                <div>
-                    {this.state.errors}
-                </div>
-            );
-        }
-
         return (
             <Grid fluid>
                 <Row center="md">
                     <h1 className="title">Welcome to Eugene</h1>
                 </Row>
                 <Row center="md">
-                    <Col xs={9} md={9}>
-                        <IncomeChange data={this.state.data} selected={this.state.selected} />
-                    </Col>
+                    <h3 className="subtext">What would you like to learn about?</h3>
                 </Row>
-                {this.renderSelectors()}
+                {this.renderIcons()}
             </Grid>
         );
     }
