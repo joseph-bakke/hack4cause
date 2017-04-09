@@ -1,10 +1,9 @@
-import React, { PropTypes } from 'react';
-import { Row } from 'react-flexbox-grid';
+import React from 'react';
 
 const CurrentHumidity = React.createClass({
     renderHumidity(){
         var humidity = this.props.weather.currently.humidity;
-        if (humidity != ""){
+        if (humidity !== ""){
             humidity = humidity*100 + "%";
         }
         return humidity;

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router';
+import React  from 'react'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './App';
 import {HomePage} from './views/Home';
 import {AboutPage} from './views/About';
@@ -7,8 +7,6 @@ import {Page} from './views/Page';
 import MapPage from './views/Map';
 import CategoryPage from './views/CategoryPage';
 import {WeatherPage} from './views/Weather';
-
-console.log(MapPage);
 
 const Routes = (
       <Router history={browserHistory}>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link} from 'react-router';
 import { Dashboard, Header, Sidebar } from 'react-adminlte-dash';
-import backgroundImage from './images/Eugene-Oregon.jpg';
 
 class App extends Component {
   navItems() {

@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { Map, TileLayer } from 'react-leaflet';
 import CircleLayer from './components/circleLayer';
 
-const circleOpacity = 0.1;
 const eugeneBPData = 'http://localhost:3001/development/residential';
 
 const stamenTonerTiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';

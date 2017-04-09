@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Selector from './Selector';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Row, Col } from 'react-flexbox-grid';
 import _ from 'lodash';
 
 /*
@@ -67,7 +67,6 @@ const ButtonSelectorMenu = React.createClass({
         return () => {
             let selected = _.clone(this.state.selected);
             let buttonConfig = _.cloneDeep(this.state.buttonConfig);
-            let config = buttonConfig[id];
 
             if (!_.includes(selected, id)) {
                 if (selected.length >= 2) {
@@ -85,7 +84,6 @@ const ButtonSelectorMenu = React.createClass({
         };
     },
     render() {
-        const {onSelectCallback} = this.props;
         const {buttonConfig} = this.state;
         const buttonMenuJsx = _.keys(buttonConfig)
             .map((buttonId, index) => {
