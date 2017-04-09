@@ -178,7 +178,7 @@ module.exports = function (app) {
     app.get('/parking', function (req, res) {
         const dbname = 'parkingCit2007';
 
-        dbAll(`SELECT Location, SanitizedLocation, lat, lon FROM ${dbname}`)
+        dbAll(`SELECT Location, SanitizedLocation, lat, lng FROM ${dbname}`)
             .then(function (recordSet) {
                 let promiseStack = recordSet.map(function (record) {
                     return updateParkingLocation.bind(undefined, dbname, record);
