@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+const ignoreFields = ['index', 'rentMed', 'year'];
+
 import CategoryIcon from './Components/CategoryIcon';
 
 import Income from '../../images/profit.png';
@@ -12,12 +14,12 @@ import Home from '../../images/home.png';
 import Cloud from '../../images/cloud.png';
 
 const iconImageMapping = {
-    'income': Income,
-    'employment': Tie,
-    'development': Tool,
-    'parking': Transport,
-    'housing': Home,
-    'weather': Cloud
+    'profit.png': Income,
+    'tie.png': Tie,
+    'tool.png': Tool,
+    'transport.png': Transport,
+    'home.png': Home,
+    'cloud.png': Cloud
 };
 
 const categoriesEndpoint = 'http://localhost:3001/categories';
@@ -33,48 +35,39 @@ export default React.createClass({
     componentWillMount() {
         axios.get(categoriesEndpoint)
             .then((res) => {
-                // this.setState({
-                //     categories: res.data
-                // });
-
                 this.setState({
-                    categories: [
-                        {
-                            type: 'graph',
-                            icon: 'income',
-                            name: 'Income'
-                        }
-                    ]
-                })
+                    categories: res.data
+                });
             })
             .catch((err) => {
                 const errors = this.state.errors.concat([err]);
                 this.setState({errors});
             });
     },
-
     renderIcons() {
-        const rows = [];
-        let cols = [];
+        const mappedCategories = [].concat(this.state.categories);
 
-        _.forEach(this.state.categories, (category, index) => {
-            const icon = iconImageMapping[category.icon];
-            const name = category.name;
+        mappedCategories.shift();
 
-            cols.push(<Col md={2} xs={2}><CategoryIcon icon={icon} name={name} /></Col>);
+        const categoryIcons = mappedCategories
+            .map((category, index) => {
+                const icon = iconImageMapping[category.icon];
+                const name = category.name;
 
-            if (index % 3 === 2 || index === this.state.categories.length - 1) {
-                rows.push(
-                    <Row around="md">
-                        {[].concat(cols)}
-                    </Row>
-                );
-            }
-        });
+                return (
+                    <div key={index}>
+                        <Col xs={3} md={3}>
+                            <CategoryIcon icon={icon} name={name} categoryId={category.id} />
+                        </Col>
+                    </div>
+                )
+            });
 
-        console.log(rows);
-
-        return rows;
+        return (
+            <div className="homepage-container">
+                <Row start="xs" around="xs">{categoryIcons}</Row>
+            </div>
+        );
     },
 
     render() {

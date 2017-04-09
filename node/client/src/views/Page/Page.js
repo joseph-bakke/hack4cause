@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import IncomeChange from './Components/IncomeChange'
-import Selector from './Components/Selector';
+import Layout from '../Shared/Layout';
+import Graph from '../Shared/Graph';
+import ButtonSelectorMenu from '../Shared/ButtonSelectorMenu';
 
 const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
 const ignoreFields = ['index', 'rentMed', 'year'];
@@ -22,7 +23,7 @@ export default React.createClass({
     getInitialState() {
         return {
             data: {},
-            selected: {},
+            selectedKeys: ['housingMed', 'zhvi'],
             errors: []
         }
     },
@@ -41,64 +42,47 @@ export default React.createClass({
     parseData(returnedData) {
         const dataSets = Object.keys(_.first(returnedData)).filter(key => !_.includes(ignoreFields, key));
         const organizedData = {};
-        const selectedData = {};
 
         dataSets.forEach((dataSet) => {
-            organizedData[dataSet] = {};
-            selectedData[dataSet] = false;
+            organizedData[dataSet] = {
+                data: [],
+                label: labelMappings[dataSet]
+            };
             returnedData.forEach((yearlyData) => {
-                organizedData[dataSet][yearlyData.year] = yearlyData[dataSet];
+                organizedData[dataSet].data.push(yearlyData[dataSet]);
             });
         });
 
         this.setState({
-            data: organizedData,
-            selected: selectedData
+            data: organizedData
         });
     },
 
-    onSelectorClick(key) {
-        if (this.state.selected.hasOwnProperty(key)) {
-            const selected = Object.assign({}, this.state.selected);
-            selected[key] = !selected[key];
-            this.setState({selected});
-        }
+    updateSelectedKeys(keys) {
+        this.setState({selectedKeys: keys});
     },
 
     renderSelectors() {
-        const dataSets = Object.keys(this.state.selected);
+        const dataSets = Object.keys(labelMappings);
         const selectorRows = [];
         let cols = [];
 
-        // Nothing to see here, just a bunch of trash
+        const buttonConfig = {};
+
         dataSets.forEach((set, index) => {
             const text = labelMappings[set];
-            const isSelected = this.state.selected[set];
-            cols.push(
-                <Col xs={3} md={3}>
-                    <Selector
-                        selectorText={text}
-                        selectorField={set}
-                        isSelected={isSelected}
-                        onSelectorClicked={this.onSelectorClick}
-                    />
-                </Col>
-            );
-
-            if (index % 4 === 3 || index === dataSets.length - 1) {
-                selectorRows.push(
-                    <Row>
-                        {[].concat(cols)}
-                    </Row>
-                );
-                cols = [];
-            }
+            buttonConfig[set] = {
+                label: <span>{text}</span>
+            };
         });
 
-        return selectorRows;
+        return (
+            <ButtonSelectorMenu defaultSelected={this.state.selectedKeys} buttonConfig={buttonConfig} onSelectCallback={this.updateSelectedKeys} />
+        );
     },
 
     render() {
+        console.log(this.state);
         if (!_.isEmpty(this.state.errors)) {
             return (
                 <div>
@@ -107,18 +91,21 @@ export default React.createClass({
             );
         }
 
+        const descriptionJsx = (
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut doloribus enim in minima modi molestiae, nostrum soluta temporibus. Explicabo porro sequi tenetur. Autem, eligendi, error. Facilis iste modi sequi similique.</p>
+        );
+        const graphJsx = (
+            <div>
+                {_.isEmpty(this.state.data) === false && <Graph title={"Income Change"} datasets={this.state.data} selected={this.state.selectedKeys}/>}
+            </div>
+        );
+
         return (
-            <Grid fluid>
-                <Row center="md">
-                    <h1 className="title">Welcome to Eugene</h1>
-                </Row>
-                <Row center="md">
-                    <Col xs={9} md={9}>
-                        <IncomeChange data={this.state.data} selected={this.state.selected} />
-                    </Col>
-                </Row>
+            <Layout title={"Employment"}
+                    visualization={graphJsx}
+                    description={descriptionJsx}>
                 {this.renderSelectors()}
-            </Grid>
+            </Layout>
         );
     }
 });/**

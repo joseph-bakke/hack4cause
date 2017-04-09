@@ -16,5 +16,8 @@ module.exports = {
     },
     "google": {
         key: "AIzaSyDN-L_XluD83Bs1oojM-X2UgZQGcEe33m8"
+    },
+    openWeatherMap: {
+        key: '5f9f878f5cf88bc74d376d07475377c7'
     }
 };

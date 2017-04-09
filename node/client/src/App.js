@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router';
+import { Link} from 'react-router';
 import { Dashboard, Header, Sidebar } from 'react-adminlte-dash';
-import MapDisplay from './views/Map';
+import backgroundImage from './images/Eugene-Oregon.jpg';
 
 class App extends Component {
   navItems() {
-    return (
-      <Header.Item href="/some/link" key="1" />
-    );
-  }
+        return (
+            <Header.Item href="/some/link" key="1"/>
+        );
+    }
   sidebarItems(){
     return(
       <Sidebar.Menu header="NAVIGATION" key="1">
@@ -30,7 +30,6 @@ class App extends Component {
       </Dashboard>
     );
   }
-
 }
 
 export default App
