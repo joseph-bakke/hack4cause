@@ -236,4 +236,17 @@ module.exports = function (app) {
             res.status(200).send()
         });
     });
+
+    app.get('/housing', function (req, res) {
+        const housingBuildingPermitTable = 'housingBP';
+
+        db.all(`SELECT * FROM ${housingBuildingPermitTable}`, function (err, record) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            console.log(err);
+            console.log(record);
+            res.status(200).send(record);
+        });
+    });
 };
