@@ -78,7 +78,7 @@ export default React.createClass({
         });
 
         return (
-            <ButtonSelectorMenu buttonConfig={buttonConfig} onSelectCallback={this.updateSelectedKeys} />
+            <ButtonSelectorMenu defaultSelected={this.state.selectedKeys} buttonConfig={buttonConfig} onSelectCallback={this.updateSelectedKeys} />
         );
     },
 

@@ -41,6 +41,27 @@ function dataTemplate(label, dataset) {
     };
 }
 
+/*
+ scale <- function(orig, matchTo) {
+ # rescales an array orig to be on the same range of values as matchTo
+ a <- min(orig)
+ b <- max(orig)
+ y <- min(matchTo)
+ z <- max(matchTo)
+
+ scaled <- (orig - a) * (z - y) / (b - a) + y
+ return(scaled)
+ }
+ */
+
+function scale(orig, matchTo) {
+    let a = _.min(orig);
+    let b = _.max(orig);
+    let y = _.min(matchTo);
+    let z = _.max(matchTo);
+    return orig.map((x) => (x - a) * (z - y) / (b - a) + y);
+}
+
 export default React.createClass({
     propTypes: {
         datasets: PropTypes.object.isRequired,
@@ -59,6 +80,20 @@ export default React.createClass({
         //     }
         // };
         // const selected = ['eugene', 'usa'];
+
+        const greatestDatasetKey = _.first(_.keys(datasets)
+            .sort(function (a, b) {
+                let maxA = _.max(datasets[a].data);
+                let maxB = _.max(datasets[b].data);
+                if (maxA > maxB) {
+                    return 1;
+                }
+                if (maxA < maxB) {
+                    return -1;
+                }
+                return 0;
+            }));
+
         const chartData = {
             labels: _.range(2001, 2016, 1),
             datasets: _.keys(datasets)

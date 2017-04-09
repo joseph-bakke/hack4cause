@@ -54,12 +54,13 @@ const ButtonSelector = React.createClass({
 const ButtonSelectorMenu = React.createClass({
     propTypes: {
         buttonConfig: PropTypes.object.isRequired,
-        onSelectCallback: PropTypes.func.isRequired
+        onSelectCallback: PropTypes.func.isRequired,
+        defaultSelected: PropTypes.array
     },
     getInitialState() {
         return {
             buttonConfig: this.props.buttonConfig,
-            selected: []
+            selected: _.clone(this.props.defaultSelected) || []
         };
     },
     selectorClicked(id) {
@@ -67,12 +68,11 @@ const ButtonSelectorMenu = React.createClass({
             let selected = _.clone(this.state.selected);
             let buttonConfig = _.cloneDeep(this.state.buttonConfig);
             let config = buttonConfig[id];
-            if (config.isSelected === undefined) {
-                config.isSelected = false;
-            }
-            config.isSelected = !config.isSelected;
 
-            if (config.isSelected === true) {
+            if (!_.includes(selected, id)) {
+                if (selected.length >= 2) {
+                    selected.shift();
+                }
                 selected.push(id);
             } else {
                 selected = selected.filter((item) => item !== id);
@@ -95,7 +95,7 @@ const ButtonSelectorMenu = React.createClass({
                             <ButtonSelector id={buttonId}
                                             selectorElement={buttonConfig[buttonId].label}
                                             onSelectorClicked={this.selectorClicked(buttonId)}
-                                            isSelected={buttonConfig[buttonId].isSelected || false}/>
+                                            isSelected={_.includes(this.state.selected, buttonId)}/>
                         </Col>
                     </div>
                 );
