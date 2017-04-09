@@ -1,12 +1,11 @@
-import React, { PropTypes } from 'react';
-import { Row } from 'react-flexbox-grid';
+import React from 'react';
 import Skycons from 'react-skycons';
 
 
 const CurrentIcon = React.createClass({
     getIcon(){
         var icon = this.props.weather.currently.icon;
-        if (icon != ""){
+        if (icon !== ""){
             icon = icon.toUpperCase();
             icon = icon.replace(/[_-]/g, "_"); 
         }
@@ -15,7 +14,7 @@ const CurrentIcon = React.createClass({
     },
     renderTemperature(){
         var temperature = this.props.weather.currently.temperature;
-        if (temperature != ""){
+        if (temperature !== ""){
             temperature = Math.round(temperature) + "°";
         }
         return temperature;

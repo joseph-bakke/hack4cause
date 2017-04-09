@@ -1,10 +1,9 @@
-import React, { PropTypes } from 'react';
-import { Row } from 'react-flexbox-grid';
+import React from 'react';
 
 const CurrentTemp = React.createClass({
     renderTemperature(){
         var temperature = this.props.weather.currently.temperature;
-        if (temperature != ""){
+        if (temperature === ""){
             temperature = Math.round(temperature) + "°";
         }
         return temperature;

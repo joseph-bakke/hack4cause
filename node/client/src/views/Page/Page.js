@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import { Grid, Row, Col } from 'react-flexbox-grid';
 import Layout from '../Shared/Layout';
 import Graph from '../Shared/Graph';
 import ButtonSelectorMenu from '../Shared/ButtonSelectorMenu';
@@ -64,12 +63,9 @@ export default React.createClass({
 
     renderSelectors() {
         const dataSets = Object.keys(labelMappings);
-        const selectorRows = [];
-        let cols = [];
-
         const buttonConfig = {};
 
-        dataSets.forEach((set, index) => {
+        dataSets.forEach((set) => {
             const text = labelMappings[set];
             buttonConfig[set] = {
                 label: <span>{text}</span>
@@ -101,11 +97,11 @@ export default React.createClass({
         );
 
         return (
-            <Layout title={"Employment"}
-                    visualization={graphJsx}
-                    description={descriptionJsx}>
-                {this.renderSelectors()}
-            </Layout>
+                <Layout title={"Employment"}
+                        visualization={graphJsx}
+                        description={descriptionJsx}>
+                    {this.renderSelectors()}
+                </Layout>
         );
     }
 });/**

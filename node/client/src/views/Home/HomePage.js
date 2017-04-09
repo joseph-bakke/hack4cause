@@ -2,8 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-const ignoreFields = ['index', 'rentMed', 'year'];
-
 import CategoryIcon from './Components/CategoryIcon';
 
 import Income from '../../images/profit.png';

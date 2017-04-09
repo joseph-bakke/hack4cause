@@ -1,16 +1,14 @@
-import React, { PropTypes } from 'react';
-import { Row } from 'react-flexbox-grid';
+import React from 'react';
+import _ from 'lodash';
 
 const CurrentWind = React.createClass({
     renderWindspeed(){
-        var windSpeed = this.props.weather.currently.windSpeed;
-        if (windSpeed != ""){
-            windSpeed = windSpeed + " mph";
-        }
-        return windSpeed;
+        return _.isEmpty(this.props.weather.currently.windSpeed)
+            ? ''
+            : `${this.props.weather.currently.windSpeed} mph`;
     },
     render() {
-        var style = {
+        const style = {
             marginTop: "10px",
             marginLeft: "11px",
             fontSize: "40px",
