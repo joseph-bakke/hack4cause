@@ -14,13 +14,14 @@ module.exports = function (app) {
             .query(`address=${encodedAddress}&key=${config.google.key}`)
             .end(function (err, response) {
                 if (err) {
-                    console.log('An error occurred:');
-                    console.log(err);
+                    // console.log('An error occurred:');
+                    // console.log(err);
                     deferred.reject(err);
                 } else {
+                    console.log(response.body);
                     const latlong = (!_.isEmpty(response.body.results)) ? response.body.results[0].geometry.location : null;
-                    console.log('latlong:');
-                    console.log(latlong);
+                    // console.log('latlong:');
+                    // console.log(latlong);
                     deferred.resolve(latlong);
                 }
             });
