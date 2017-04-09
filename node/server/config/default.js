@@ -13,5 +13,8 @@ module.exports = {
     },
     cache: {
         defaultTtl: 1440
+    },
+    "google": {
+        key: "AIzaSyDN-L_XluD83Bs1oojM-X2UgZQGcEe33m8"
     }
 };
