@@ -1,9 +1,12 @@
 const Promise = require('bluebird');
 const _ = require('lodash');
+const request = require('superagent');
+
 
 module.exports = function (app) {
     const connections = app.get('connections');
     const db = connections.sqlite;
+    const config = app.get('config');
 
     // eslint-disable-next-line
     const geoLib = require('../lib/geocode')(app);
@@ -177,9 +180,17 @@ module.exports = function (app) {
             });
     }
 
-
     app.get('/weather', function (req, res) {
         // hook up to weather api and return something cool
+        request
+            .get('api.openweathermap.org/data/2.5/forecast')
+            .query({ q: 'Eugene,or', APPID: config.openWeatherMap.key })
+            .end(function (err, response) {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(response.body);
+            });
     });
 
     app.get('/eugeneData', function (req, res) {
