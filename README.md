@@ -16,6 +16,7 @@ OpenWeatherMap API
 sqlite
 Chart.js
 Leaflet
+lodash
 
 
 # Usage

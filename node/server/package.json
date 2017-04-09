@@ -15,13 +15,6 @@
     "concurrently": "^2.1.0",
     "cross-env": "^4.0.0",
     "css-loader": "^0.28.0",
-    "eslint": "^3.19.0",
-    "eslint-config-cbtnuggets": "^5.0.0",
-    "eslint-plugin-babel": "^3.3.0",
-    "eslint-plugin-class-property": "^1.0.3",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.10.3",
     "eventsource-polyfill": "^0.9.6",
     "file-loader": "^0.11.1",
     "gulp": "^3.9.1",
@@ -58,7 +51,6 @@
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "build": "npm run clean && npm run build:webpack -p",
     "start": "webpack-dev-server",
-    "lint": "eslint src",
     "start:no-hot": "HOT=false BABEL_ENV=no-hot node devServer.js",
     "with": "concurrently"
   }

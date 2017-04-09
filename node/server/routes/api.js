@@ -8,9 +8,7 @@ module.exports = function (app) {
     const db = connections.sqlite;
     const config = app.get('config');
 
-    // eslint-disable-next-line
     const geoLib = require('../lib/geocode')(app);
-    // eslint-disable-next-line
     const queries = require('../lib/queries');
     const weatherLib = require('../lib/weather')(app);
 
