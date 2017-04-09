@@ -24,6 +24,7 @@ const MapComponent = React.createClass({
     componentDidMount() {
         axios.get(eugeneBPData)
             .then((res) => {
+                console.log('res', res);
                 this.parseData(res.data);
             })
             .catch((err) => {

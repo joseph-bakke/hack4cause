@@ -9,8 +9,10 @@ module.exports = function (app) {
     const geoLib = require('../lib/geocode')(app);
     // eslint-disable-next-line
     const queries = require('../lib/queries');
+    const weatherLib = require('../lib/weather')(app);
 
     app.get('/convert/address/latlong', function (req, res) {
+        console.log('hey');
         console.log('GET convert address to latlong endpoint called');
         const dbname = req.query.dbname;
 
@@ -179,7 +181,13 @@ module.exports = function (app) {
 
 
     app.get('/weather', function (req, res) {
-        // hook up to weather api and return something cool
+        console.log('res', res);
+         weatherLib.getWeatherForecast()
+            .then(response => {
+            console.log('response', response);
+            res.status(200).send(response);
+            })
+            .catch(error => console.log(`ERROR OCCURRED AT API.JS: ${error}`));
     });
 
     app.get('/eugeneData', function (req, res) {

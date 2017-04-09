@@ -14,6 +14,7 @@ class App extends Component {
       <Sidebar.Menu header="NAVIGATION" key="1">
         <Link to="/"><Sidebar.Menu.Item title="Home"/></Link>
         <Link to="/about"><Sidebar.Menu.Item title="About"/></Link>
+        <Link to="/weather"><Sidebar.Menu.Item title="Weather"/></Link>
       </Sidebar.Menu>
     );
   }
