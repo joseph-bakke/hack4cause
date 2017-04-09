@@ -57,8 +57,6 @@ export default React.createClass({
         const rows = [];
         let cols = [];
 
-        console.log(this.state.categories);
-
         _.forEach(this.state.categories, (category, index) => {
             const icon = iconImageMapping[category.icon];
             const name = category.name;

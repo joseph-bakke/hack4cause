@@ -4,6 +4,7 @@ import App from './App';
 import {HomePage} from './views/Home';
 import {AboutPage} from './views/About';
 import MapPage from './views/Map';
+import CategoryPage from './views/CategoryPage';
 
 console.log(MapPage);
 
@@ -12,6 +13,7 @@ const Routes = (
         <Route path='/' component={App} >
             <IndexRoute title="Home" component={HomePage} />
             <Route path='/about' component={AboutPage} />
+            <Route path='/category/:categoryid' component={CategoryPage}/>
             <Route path='/map' component={MapPage} />
         </Route>
       </Router>
