@@ -52,7 +52,7 @@ body {
 
 .selector-button.clicked {
     background-color: #00a65a;
-    color: #ffffff;
+    color: white;
 }
 
 .selector-button:hover {

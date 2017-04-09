@@ -82,7 +82,7 @@ export default React.createClass({
         });
 
         return (
-            <ButtonSelectorMenu buttonConfig={buttonConfig} onSelectCallback={function () {}} />
+            <ButtonSelectorMenu buttonConfig={buttonConfig} onSelectCallback={function (selected) {console.log(selected)}} />
         );
     },
 

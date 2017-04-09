@@ -58,12 +58,30 @@ const ButtonSelectorMenu = React.createClass({
     },
     getInitialState() {
         return {
-            buttonConfig: this.props.buttonConfig
+            buttonConfig: this.props.buttonConfig,
+            selected: []
         };
     },
     selectorClicked(id) {
-        return function onSelectorClicked(event) {
-            event.preventDefault();
+        return () => {
+            let selected = _.clone(this.state.selected);
+            let buttonConfig = _.cloneDeep(this.state.buttonConfig);
+            let config = buttonConfig[id];
+            if (config.isSelected === undefined) {
+                config.isSelected = false;
+            }
+            config.isSelected = !config.isSelected;
+
+            if (config.isSelected === true) {
+                selected.push(id);
+            } else {
+                selected = selected.filter((item) => item !== id);
+            }
+
+            this.setState({
+                buttonConfig,
+                selected
+            }, () => this.props.onSelectCallback(selected));
         };
     },
     render() {
