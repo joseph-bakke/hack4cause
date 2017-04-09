@@ -114,6 +114,19 @@ a {
     animation: fadein 2s;
 }
 
+.eugene-background-image {
+    display:block;
+    position: absolute;
+    background:url("../images/Eugene-Oregon.jpg");
+    background-repeat:no-repeat;
+    z-index: -10000;
+    width:100%;
+    height:100%;
+    float:right;
+    bottom:0;
+    right:0;
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }

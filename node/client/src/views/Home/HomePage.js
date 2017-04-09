@@ -64,7 +64,7 @@ export default React.createClass({
             });
 
         return (
-            <div className="homepage-container innermax">
+            <div className="homepage-container">
                 <Row start="xs" around="xs">{categoryIcons}</Row>
             </div>
         );
