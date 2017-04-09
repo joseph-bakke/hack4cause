@@ -16,6 +16,7 @@ Team Members
 * sqlite
 * Chart.js
 * Leaflet
+* lodash.js
 
 
 # Usage
