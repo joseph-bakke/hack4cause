@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import IncomeChange from './Components/IncomeChange'
 import Selector from './Components/Selector';
+import Layout from '../Shared/Layout';
 
 const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
 const ignoreFields = ['index', 'rentMed', 'year'];
@@ -107,18 +108,26 @@ export default React.createClass({
             );
         }
 
+        const graphJsx = (
+            <div>
+                <IncomeChange data={this.state.data} selected={this.state.selected} />
+            </div>
+        );
+
+        const description = (
+            <p>
+                Lorem ipsum <b>dolor</b> sit amet, consectetur adipisicing elit. A assumenda atque eos explicabo ipsa magnam minima modi nesciunt odit porro provident quaerat quis quisquam quo, quod rerum suscipit ullam velit.
+            </p>
+        );
+
+
         return (
-            <Grid fluid>
-                <Row center="md">
-                    <h1 className="title">Welcome to Eugene</h1>
-                </Row>
-                <Row center="md">
-                    <Col xs={9} md={9}>
-                        <IncomeChange data={this.state.data} selected={this.state.selected} />
-                    </Col>
-                </Row>
+            <Layout title={"Welcome to Eugene"}
+                    visualization={graphJsx}
+                    description={description}
+            >
                 {this.renderSelectors()}
-            </Grid>
+            </Layout>
         );
     }
 });

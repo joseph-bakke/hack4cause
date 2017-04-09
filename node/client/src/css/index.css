@@ -103,6 +103,20 @@ h1, h2, p {
     text-align: center;
 }
 
+.layout p {
+    text-align: left;
+    line-height: 2.4rem;
+}
+
+.layout hr {
+    margin: 1.6rem 0;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #c5c5c5;
+    padding: 0;
+}
+
 footer{
   position: fixed;
     bottom: 0px;
