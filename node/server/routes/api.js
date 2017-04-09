@@ -7,8 +7,8 @@ module.exports = function (app) {
 
     // eslint-disable-next-line
     const geoLib = require('../lib/geocode')(app);
-
-    // const config = app.get('config');
+    // eslint-disable-next-line
+    const queries = require('../lib/queries');
 
     app.get('/convert/address/latlong', function (req, res) {
         console.log('GET convert address to latlong endpoint called');
@@ -75,24 +75,31 @@ module.exports = function (app) {
             res.status(200).send(`Found ${count} records, updated ${updated}`);
         });
     });
-    /*
-     def split_loc(loc):
-        try:
-            loc_array = str(loc).split(' ')
-            loc1 = ' '.join([loc_array[0], loc_array[2]])
-        except IndexError:
-            loc1 = None
-            return loc1
-     */
 
+    app.get('/parking/setup', function (req, res) {
+        const dbname = 'parkingCit2007';
 
-
-
-    app.get('/connect', function (req, res) {
-        console.log('Sending sample api request to google geocoding api');
-        geoLib.convertAddressToLatLong('2700 CENTENNIAL BLVD, Eugene OR')
-            .then(response => res.status(200).send(response))
-            .catch(err => res.status(500).send(err));
+        dbAll(`SELECT Location, SanitizedLocation, lat, lon FROM ${dbname}`)
+            .then(function (recordSet) {
+                const promiseStack = recordSet.map(function (record) {
+                    return updateParkingLocation.bind(undefined, dbname, record);
+                });
+                return Promise.map(promiseStack, function (fun) {
+                    return fun();
+                }, { concurrency: 5 });
+            })
+            .then(function (result) {
+                return dbAll(`SELECT Location, SanitizedLocation, lat, lon FROM ${dbname}`);
+            })
+            .then(function (result) {
+                res.status(200).send(result);
+            })
+            .catch(function (err) {
+                console.log(queryCache);
+                console.error(err);
+                console.error(err.stack);
+                res.status(500).send({ error: err });
+            });
     });
 
     function dbAll(query) {
@@ -129,7 +136,7 @@ module.exports = function (app) {
         return outputFormat;
     }
 
-    let searchTermCache = {};
+    const searchTermCache = {};
 
     function geoQuery(searchTerm) {
         if (!searchTermCache[searchTerm]) {
@@ -137,16 +144,16 @@ module.exports = function (app) {
                 .then(function (result) {
                     searchTermCache[searchTerm] = result;
                     return result;
-                })
+                });
         } else {
             return Promise.resolve(searchTermCache[searchTerm]);
         }
     }
 
-    let queryCache = {};
+    const queryCache = {};
 
     function updateRowWithGeoResult(dbname, record, sanitizedLocation, lat, lon) {
-        let query = `UPDATE ${dbname} SET lat="${lat}", lon="${lon}", SanitizedLocation="${sanitizedLocation}" WHERE location="${record.Location}"`;
+        const query = `UPDATE ${dbname} SET lat="${lat}", lon="${lon}", SanitizedLocation="${sanitizedLocation}" WHERE location="${record.Location}"`;
         if (!queryCache[query]) {
             return dbRun(query)
                 .then(function (result) {
@@ -159,7 +166,7 @@ module.exports = function (app) {
     }
 
     function updateParkingLocation(dbname, record) {
-        let searchTerm = processLocation(record.Location);
+        const searchTerm = processLocation(record.Location);
         return geoQuery(searchTerm)
             .then(function (coords) {
                 if (coords && coords.lat && coords.lng) {
@@ -170,30 +177,9 @@ module.exports = function (app) {
             });
     }
 
-    app.get('/parking', function (req, res) {
-        const dbname = 'parkingCit2007';
 
-        dbAll(`SELECT Location, SanitizedLocation, lat, lng FROM ${dbname}`)
-            .then(function (recordSet) {
-                let promiseStack = recordSet.map(function (record) {
-                    return updateParkingLocation.bind(undefined, dbname, record);
-                });
-                return Promise.map(promiseStack, function (fun) {
-                    return fun();
-                }, {concurrency: 5});
-            })
-            .then(function (result) {
-                return dbAll(`SELECT Location, SanitizedLocation, lat, lon FROM ${dbname}`);
-            })
-            .then(function (result) {
-                res.status(200).send(result);
-            })
-            .catch(function (err) {
-                console.log(queryCache);
-                console.error(err);
-                console.error(err.stack);
-                res.status(500).send({error: err});
-            });
+    app.get('/weather', function (req, res) {
+        // hook up to weather api and return something cool
     });
 
     app.get('/eugeneData', function (req, res) {
@@ -208,26 +194,47 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/building', function (req, res) {
-        const commercialPermitTable = 'employmentBP';
-        const housingBuildingPermitTable = 'housingBP';
+    app.get('/development/commercial', function (req, res) {
+        const categoryTable = 'DEVELOPMENT_COM';
 
-        db.all(`SELECT * FROM ${commercialPermitTable} LEFT JOIN ${housingBuildingPermitTable}`, function (err, record) {
+        db.all(`${queries[categoryTable]}`, function (err, records) {
             if (err) {
                 res.status(500).send(err);
             }
-            res.status(200).send(record);
+            res.status(200).send(records);
         });
     });
 
-    app.get('/housing', function (req, res) {
-        const housingBuildingPermitTable = 'housingBP';
+    app.get('/development/residential', function (req, res) {
+        const categoryTable = 'DEVELOPMENT_RES';
 
-        db.all(`SELECT * FROM ${housingBuildingPermitTable}`, function (err, record) {
+        db.all(`${queries[categoryTable]}`, function (err, records) {
             if (err) {
                 res.status(500).send(err);
             }
-            res.status(200).send(record);
+            res.status(200).send(records);
+        });
+    });
+
+    app.get('/income', function (req, res) {
+        const categoryTable = 'INCOME';
+
+        db.all(`${queries[categoryTable]}`, function (err, records) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            res.status(200).send(records);
+        });
+    });
+
+    app.get('/parking', function (req, res) {
+        const categoryTable = 'PARKING';
+
+        db.all(`${queries[categoryTable]}`, function (err, records) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            res.status(200).send(records);
         });
     });
 
@@ -237,7 +244,17 @@ module.exports = function (app) {
         db.all(`SELECT * FROM ${categoryTable}`, function (err, records) {
             if (err) {
                 res.status(500).send(err);
+            }
+            res.status(200).send(records);
+        });
+    });
 
+    app.get('/data/for/category/:id', function (req, res) {
+        const categoryId = req.params.id;
+
+        db.all(`SELECT * FROM category WHERE id = ${categoryId}`, function (err, records) {
+            if (err) {
+                res.status(500).send(err);
             }
             res.status(200).send(records);
         });
