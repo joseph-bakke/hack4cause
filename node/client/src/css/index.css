@@ -64,6 +64,10 @@ a.selector-button {
     text-decoration: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .title {
     margin: 10px 0 0 0;
     font-size: 45px;
@@ -94,6 +98,10 @@ a.selector-button {
     background-color: #e4e4e4
 }
 
+.homepage-container {
+    padding: 50px;
+}
+
 .subtext {
     margin-top: 10px;
     font-size: 18px;
@@ -104,6 +112,19 @@ a.selector-button {
     -ms-animation: fadein 2s; /* Internet Explorer */
     -o-animation: fadein 2s; /* Opera < 12.1 */
     animation: fadein 2s;
+}
+
+.eugene-background-image {
+    display:block;
+    position: absolute;
+    background:url("../images/Eugene-Oregon.jpg");
+    background-repeat:no-repeat;
+    z-index: -10000;
+    width:100%;
+    height:100%;
+    float:right;
+    bottom:0;
+    right:0;
 }
 
 @keyframes fadein {
