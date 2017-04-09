@@ -28,7 +28,8 @@ const MapComponent = React.createClass({
     },
 
     renderExtraLayers() {
-
+        console.log(this.props.additionalLayers);
+        return this.props.additionalLayers.map(layer => layer);
     },
 
     render() {
@@ -75,17 +76,16 @@ const MapPage = React.createClass({
                 });
             })
             .catch((err) => {
-                console.log(err);
                 const errors = this.state.errors.concat([err]);
                 this.setState({errors});
             });
 
     },
     render() {
-        const circleLayer = <CircleLayer  />;
+        const circleLayer = <CircleLayer dataSet={this.state.circles} />;
         return (
             <div>
-                <MapComponent />
+                <MapComponent additionalLayers={[circleLayer]} />
             </div>
         );
     }

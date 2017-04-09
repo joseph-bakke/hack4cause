@@ -3,21 +3,15 @@ import { Circle } from 'react-leaflet';
 import _ from 'lodash';
 
 const circleOpacity = 0.1;
+const circleRadius = 500;
 
 const CircleLayer = React.createClass({
     propTypes: {
-        zoomBy: PropTypes.number,
         dataSet: PropTypes.array
     },
 
-    componentWillReceiveProps(nextProps) {
-        this.handleZoom(nextProps.zoomBy);
-    },
-
-    handleZoom(zoomBy) {
-        this.setState({
-            circleRadius: 500-zoomBy
-        });
+    componentWillMount() {
+        this.parseData();
     },
 
     parseData() {
@@ -35,8 +29,8 @@ const CircleLayer = React.createClass({
 
     createCircles() {
         let comp = [];
-        let circleRadius = this.state.circleRadius;
-        _.forEach(this.props.circles, function (loc, index) {
+        _.forEach(this.props.dataSet, function (loc, index) {
+            console.log(loc);
             comp = comp.concat(
                 <Circle
                     key={index}
