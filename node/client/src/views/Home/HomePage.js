@@ -109,7 +109,10 @@ export default React.createClass({
 
         return (
             <Grid fluid>
-                <Row>
+                <Row center="md">
+                    <h1 className="title">Welcome to Eugene</h1>
+                </Row>
+                <Row center="md">
                     <Col xs={9} md={9}>
                         <IncomeChange data={this.state.data} selected={this.state.selected} />
                     </Col>

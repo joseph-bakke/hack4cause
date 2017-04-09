@@ -11,8 +11,14 @@ const Selector = React.createClass({
         this.props.onSelectorClicked(this.props.selectorField);
     },
     render() {
+        const className = this.props.isSelected
+            ? 'selector-button clicked'
+            : 'selector-button';
+
         return (
-            <button onClick={this.onClick}>{this.props.selectorText}</button>
+            <div>
+                <a className={className} onClick={this.onClick}>{this.props.selectorText}</a>
+            </div>
         );
     }
 });
