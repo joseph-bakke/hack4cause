@@ -182,16 +182,18 @@ module.exports = function (app) {
             });
     }
 
-    app.get('/weather', function (req, res) {
-<<<<<<< HEAD
+    app.get('/weather-forecast', function (req, res) {
         console.log('res', res);
          weatherLib.getWeatherForecast()
             .then(response => {
             console.log('response', response);
             res.status(200).send(response);
             })
-            .catch(error => console.log(`ERROR OCCURRED AT API.JS: ${error}`));
-=======
+            .catch(error => console.log(`ERROR OCCURRED AT weather-forecast ${error}`));
+        // hook up to weather api and return something cool
+    });
+
+    app.get('/weather', function (req, res) {
         // hook up to weather api and return something cool
         request
             .get('api.openweathermap.org/data/2.5/forecast')
@@ -202,7 +204,6 @@ module.exports = function (app) {
                 }
                 res.status(200).send(response.body);
             });
->>>>>>> develop
     });
 
     app.get('/eugeneData', function (req, res) {

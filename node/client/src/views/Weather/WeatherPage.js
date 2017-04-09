@@ -8,7 +8,7 @@ import CurrentIcon from './Components/CurrentIcon.js';
 import CurrentWind from './Components/CurrentWind.js';
 import CurrentHumidity from './Components/CurrentHumidity.js';
 
-const weatherEndpoint = 'http://localhost:3001/weather';
+const weatherEndpoint = 'http://localhost:3001/weather-forecast';
 
 
 export default React.createClass({
