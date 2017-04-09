@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import path from 'path';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import CategoryIcon from './Components/CategoryIcon';
 
