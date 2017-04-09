@@ -97,11 +97,11 @@ export default React.createClass({
         );
 
         return (
-            <Layout title={"Employment"}
-                    visualization={graphJsx}
-                    description={descriptionJsx}>
-                {this.renderSelectors()}
-            </Layout>
+                <Layout title={"Employment"}
+                        visualization={graphJsx}
+                        description={descriptionJsx}>
+                    {this.renderSelectors()}
+                </Layout>
         );
     }
 });/**

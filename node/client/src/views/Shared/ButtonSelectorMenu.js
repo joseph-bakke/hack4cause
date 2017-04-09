@@ -84,7 +84,7 @@ const ButtonSelectorMenu = React.createClass({
         };
     },
     render() {
-        const {buttonConfig} = this.state;
+        const {buttonConfig} = this.props;
         const buttonMenuJsx = _.keys(buttonConfig)
             .map((buttonId, index) => {
                 return (

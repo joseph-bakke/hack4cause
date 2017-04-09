@@ -13,7 +13,7 @@ const Routes = (
         <Route path='/' component={App} >
             <IndexRoute title="Home" component={HomePage} />
             <Route path='/about' component={AboutPage} />
-            <Route path='/category/:categoryid' component={CategoryPage}/>
+            <Route path='/category/:categoryid' component={Page}/>
             <Route path='/page' component={Page} />
             <Route path='/map' component={MapPage} />
             <Route path='/weather' component={WeatherPage} />

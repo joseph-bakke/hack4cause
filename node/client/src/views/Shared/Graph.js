@@ -41,12 +41,15 @@ function dataTemplate(label, dataset) {
 
 export default React.createClass({
     propTypes: {
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
         datasets: PropTypes.object.isRequired,
         selected: PropTypes.array.isRequired
     },
     render(){
         const {title, datasets, selected} = this.props;
+
+        console.log(datasets);
+        console.log(selected);
 
         const chartData = {
             labels: _.range(2001, 2016, 1),
@@ -56,6 +59,9 @@ export default React.createClass({
                     return dataTemplate(datasets[key].label, datasets[key].data);
                 })
         };
+
+        console.log(chartData);
+
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
