@@ -13,6 +13,7 @@ class App extends Component {
     return(
       <Sidebar.Menu header="NAVIGATION" key="1">
         <Link to="/"><Sidebar.Menu.Item title="Home"/></Link>
+        <Link to="/map"><Sidebar.Menu.Item title="Map"/></Link>
         <Link to="/about"><Sidebar.Menu.Item title="About"/></Link>
       </Sidebar.Menu>
     );
