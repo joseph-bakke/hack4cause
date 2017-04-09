@@ -1,3 +1,3 @@
-import MapRender from './MapRender';
+import MapComponent from './MapComponent';
 
-export default MapRender;
+export default MapComponent;
