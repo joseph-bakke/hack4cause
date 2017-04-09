@@ -55,8 +55,38 @@ body {
 }
 
 .title {
-    margin-top: 25px;
+    margin: 10px 0 0 0;
     font-size: 45px;
+    text-align: center;
+
+    -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 2s; /* Firefox < 16 */
+    -ms-animation: fadein 2s; /* Internet Explorer */
+    -o-animation: fadein 2s; /* Opera < 12.1 */
+    animation: fadein 2s;
+}
+
+.icon-desc {
+    color: #00752e;
+}
+
+.icon-container
+{
+    padding: 1.6rem;
+    position:relative;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.icon-container:hover
+{
+    background-color: #e4e4e4
+}
+
+.subtext {
+    margin-top: 10px;
+    font-size: 18px;
     text-align: center;
 
     -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
