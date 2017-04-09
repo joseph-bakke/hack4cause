@@ -2,7 +2,9 @@ import React, { PropTypes }  from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Map, TileLayer } from 'react-leaflet';
+import CircleLayer from './components/circleLayer';
 
+const circleOpacity = 0.1;
 const eugeneBPData = 'http://localhost:3001/development/residential';
 
 const stamenTonerTiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -60,10 +62,17 @@ const MapComponent = React.createClass({
 });
 
 const MapPage = React.createClass({
+    getInitialState() {
+        return {
+            circles: []
+        };
+    },
     componentWillMount() {
         axios.get(eugeneBPData)
             .then((res) => {
-                this.parseData(res.data);
+                this.setState({
+                    circles: res.data
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -72,10 +81,8 @@ const MapPage = React.createClass({
             });
 
     },
-    parseData(data) {
-        console.log(data);
-    },
     render() {
+        const circleLayer = <CircleLayer  />;
         return (
             <div>
                 <MapComponent />

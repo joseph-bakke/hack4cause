@@ -64,6 +64,10 @@ a.selector-button {
     text-decoration: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .title {
     margin: 10px 0 0 0;
     font-size: 45px;
@@ -92,6 +96,10 @@ a.selector-button {
 .icon-container:hover
 {
     background-color: #e4e4e4
+}
+
+.homepage-container {
+    padding: 50px;
 }
 
 .subtext {

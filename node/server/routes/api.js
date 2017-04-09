@@ -210,6 +210,7 @@ module.exports = function (app) {
 
         db.all(`${queries[categoryTable]}`, function (err, records) {
             if (err) {
+                console.log(err);
                 res.status(500).send(err);
             }
             res.status(200).send(records);

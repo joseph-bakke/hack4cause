@@ -20,45 +20,41 @@ const CircleLayer = React.createClass({
         });
     },
 
-    parseData(returnedData) {
-        console.log('Data returned from endpoint');
-        const dataSets = Object.keys(_.first(returnedData));
+    parseData() {
         let circles = [];
-        _.forEach(returnedData, function (obj) {
-            if (!(obj.lat == null || obj.lng == null)) {
+        _.forEach(this.props.dataSet, function (obj) {
+            if (!(obj.lat === null || obj.lng === null)) {
                 circles.push([parseFloat(obj.lat), parseFloat(obj.lng)]);
             }
-        })
+        });
 
-        console.log(circles);
         this.setState({
             circles: circles
         });
     },
 
-    createCircles(circles) {
+    createCircles() {
         let comp = [];
-        console.log(this.state.circleRadius);
         let circleRadius = this.state.circleRadius;
-        let i = 0;
-        _.forEach(circles, function (loc) {
+        _.forEach(this.props.circles, function (loc, index) {
             comp = comp.concat(
                 <Circle
-                    key={i}
+                    key={index}
                     center={loc}
                     radius={circleRadius}
                     fillOpacity={circleOpacity}
                     stroke={false}
                 />
             );
-            i++;
         });
         return comp;
     },
 
     render() {
         return (
-            <div></div>
+            <div>
+                {this.createCircles()}
+            </div>
         );
     }
 });
