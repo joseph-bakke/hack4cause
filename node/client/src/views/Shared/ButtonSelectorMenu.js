@@ -70,21 +70,23 @@ const ButtonSelectorMenu = React.createClass({
         const {onSelectCallback} = this.props;
         const {buttonConfig} = this.state;
         const buttonMenuJsx = _.keys(buttonConfig)
-            .map(function (buttonId) {
+            .map((buttonId, index) => {
                 return (
-                    <Col xs={3} md={3}>
-                        <ButtonSelector id={buttonId}
-                                        selectorElement={buttonConfig[buttonId].label}
-                                        onSelectorClicked={this.selectorClicked(buttonId)}
-                                        isSelected={buttonConfig[buttonId].isSelected}/>
-                    </Col>
+                    <div key={index}>
+                        <Col xs={3} md={3}>
+                            <ButtonSelector id={buttonId}
+                                            selectorElement={buttonConfig[buttonId].label}
+                                            onSelectorClicked={this.selectorClicked(buttonId)}
+                                            isSelected={buttonConfig[buttonId].isSelected || false}/>
+                        </Col>
+                    </div>
                 );
             });
         return (
             <div>
-                {_.chunk(buttonMenuJsx, 4).map(function (arraySet, index) {
-                    return <Row>{arraySet}</Row>;
-                })}
+                <Row start="xs" around="xs">
+                    {buttonMenuJsx}
+                </Row>
             </div>
         );
     }

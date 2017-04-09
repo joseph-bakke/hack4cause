@@ -37,8 +37,9 @@ body {
 
 .selector-button {
     display: inline-block;
+    min-width: 300px;
     padding: 10px 14px;
-    margin: 5px 5px;
+    margin: 1.2rem 0;
     background-color: #ffffff;
     color:#00a65a;
     font-weight: bold;
@@ -52,6 +53,15 @@ body {
 .selector-button.clicked {
     background-color: #00a65a;
     color: #ffffff;
+}
+
+.selector-button:hover {
+    background-color: #00a65a;
+    color: white;
+}
+
+a.selector-button {
+    text-decoration: none;
 }
 
 .title {

@@ -16,7 +16,7 @@ const Selector = React.createClass({
 
         return (
             <div>
-                <a className={className} onClick={this.onClick}>{this.props.selectorElement}</a>
+                <a href="#" className={className} onClick={this.onClick}>{this.props.selectorElement}</a>
             </div>
         );
     }
