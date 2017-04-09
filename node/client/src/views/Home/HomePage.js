@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import IncomeChange from './Components/IncomeChange'
-import Selector from './Components/Selector';
+import Selector from '../Shared/Selector';
 import Layout from '../Shared/Layout';
 
 const eugeneOverviewEndpoint = 'http://localhost:3001/eugeneData';
