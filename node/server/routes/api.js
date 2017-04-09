@@ -199,16 +199,6 @@ module.exports = function (app) {
                 console.error(err.stack);
                 res.status(500).send({error: err});
             });
-
-
-        // db.ll(`SELECT SanitizedLocation, lat FROM ${dbname}`, function (err, record) {
-        //     if (err) {
-        //         console.log(err);
-        //         return res.status(500).send(err);
-        //     }
-        //     console.log(record);
-        //     res.status(200).send(record);
-        // });
     });
 
     app.get('/eugeneData', function (req, res) {
@@ -231,9 +221,7 @@ module.exports = function (app) {
             if (err) {
                 res.status(500).send(err);
             }
-            console.log(err);
-            console.log(record);
-            res.status(200).send()
+            res.status(200).send(record);
         });
     });
 
@@ -244,9 +232,19 @@ module.exports = function (app) {
             if (err) {
                 res.status(500).send(err);
             }
-            console.log(err);
-            console.log(record);
             res.status(200).send(record);
+        });
+    });
+
+    app.get('/categories', function (req, res) {
+        const categoryTable = 'category';
+
+        db.all(`SELECT * FROM ${categoryTable}`, function (err, records) {
+            if (err) {
+                res.status(500).send(err);
+
+            }
+            res.status(200).send(records);
         });
     });
 };
